@@ -20,7 +20,6 @@ TicketSchema.virtual('profile', {
 })
 TicketSchema.virtual('event', {
     localField: 'eventId',
-    // FIXME make sure are referencing the correct collection
     ref: 'TowerEvent',
     foreignField: '_id',
     justOne: true
