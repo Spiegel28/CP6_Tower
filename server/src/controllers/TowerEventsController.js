@@ -2,6 +2,7 @@ import { Auth0Provider } from "@bcwdev/auth0provider";
 import { towerEventService } from "../services/TowerEventsService.js";
 import BaseController from "../utils/BaseController.js";
 import { ticketService } from "../services/TicketService.js";
+import { commentService } from "../services/CommentService.js";
 
 export class TowerEventsController extends BaseController {
     constructor() {
@@ -20,7 +21,8 @@ export class TowerEventsController extends BaseController {
     async getCommentsInEvent(request, response, next) {
         try {
             const eventId = request.params.eventId
-            // const comments = await commentsService.getCommentsInEvent(eventId)
+            const comments = await commentService.getCommentsInEvent(eventId)
+            response.send(comments)
         } catch (error) {
             next(error)
         }
