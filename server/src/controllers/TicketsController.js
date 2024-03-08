@@ -27,7 +27,7 @@ export class TicketsController extends BaseController {
             const ticketId = request.params.ticketId
             const userId = request.userInfo.id
             const ticket = await ticketService.returnTicket(ticketId, userId)
-            // response.send(message)
+            response.send(ticket)
         } catch (error) {
             next(error)
 

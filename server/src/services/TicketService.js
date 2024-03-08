@@ -6,7 +6,7 @@ class TicketService {
     async getEventTickets(userId) {
         const eventTickets = await dbContext.Tickets.find({ accountId: userId })
             .populate({
-                path: 'towerEvent',
+                path: 'event',
                 populate: {
                     path: 'ticketCount'
                 }
@@ -15,12 +15,12 @@ class TicketService {
     }
 
     async getTicketsForEvent(eventId) {
-        const tickets = await dbContext.Tickets.find({ eventId }).populate('profile', 'name picture', 'towerEvent')
+        const tickets = await dbContext.Tickets.find({ eventId }).populate('profile')
         return tickets
     }
     async createTicket(ticketData) {
         const ticket = await dbContext.Tickets.create(ticketData)
-        await ticket.populate('profile', 'name picture')
+        await ticket.populate('profile')
         return ticket
     }
 

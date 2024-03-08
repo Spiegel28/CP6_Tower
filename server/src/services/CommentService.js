@@ -4,13 +4,13 @@ class CommentService {
     async createComment(commentData) {
 
         const comment = await dbContext.Comments.create(commentData)
-        await comment.populate()
+        await comment.populate('')
         return comment
 
     }
 
     async getCommentsInEvent(eventId) {
-        const comments = await dbContext.Comments.find({ eventId }).populate()
+        const comments = await dbContext.Comments.find({ eventId }).populate('')
         return comments
     }
 

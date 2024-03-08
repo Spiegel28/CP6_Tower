@@ -14,13 +14,13 @@ export class TowerEventsController extends BaseController {
             .post('', this.createTowerEvent)
             .delete('/:eventId', this.archiveEvent)
             .get('/:eventId/tickets', this.getTicketsForEvent)
-            .get('/:eventId/comments', this.getCommentsinEvent)
+            .get('/:eventId/comments', this.getCommentsInEvent)
     }
 
     async getCommentsInEvent(request, response, next) {
         try {
             const eventId = request.params.eventId
-            const comments = await commentsService.getCommentsInEvent(eventId)
+            // const comments = await commentsService.getCommentsInEvent(eventId)
         } catch (error) {
             next(error)
         }
