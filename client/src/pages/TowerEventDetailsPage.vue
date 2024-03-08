@@ -19,6 +19,7 @@
                         <button>Attend</button>
                     </div>
                 </div>
+                <!-- FIXME add start date -->
                 <p>tim</p>
                 <p>{{ towerEvent.location }}</p>
                 <div class="col-6">
@@ -44,6 +45,7 @@ export default {
 
         onMounted(() => {
             getTowerEventById()
+            // TODO call your other get functions here
         })
 
         async function getTowerEventById() {
@@ -54,6 +56,10 @@ export default {
                 Pop.error(error)
             }
         }
+        // TODO write function to get tickets for event
+        // TODO write function to get comments for event
+
+
         return {
             route,
             towerEvent: computed(() => AppState.activeEvent),

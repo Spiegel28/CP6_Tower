@@ -18,6 +18,8 @@ TowerEventSchema.virtual('creator', {
   foreignField: '_id',
   justOne: true
 })
+
+// NOTE make sure you are populating this virtual on the correct methods in your service
 TowerEventSchema.virtual('ticketCount', {
   localField: '_id',
   ref: 'Ticket',

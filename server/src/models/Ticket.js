@@ -1,9 +1,10 @@
 import { Schema } from "mongoose";
+// NOTE reference collaborators from postit
 
 export const TicketSchema = new Schema(
     {
         eventId: { type: Schema.Types.ObjectId, required: true, ref: 'TowerEvent' },
-        creatorId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' }
+        accountId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' }
 
     },
     {
@@ -19,7 +20,8 @@ TicketSchema.virtual('profile', {
 })
 TicketSchema.virtual('event', {
     localField: 'eventId',
-    ref: 'Ticket',
+    // FIXME make sure are referencing the correct collection
+    ref: 'TowerEvent',
     foreignField: '_id',
     justOne: true
 })
