@@ -10,14 +10,24 @@ export class TowerEventsController extends BaseController {
         this.router
             .get('', this.getAllTowerEvents)
             .get('/:eventId', this.getOneTowerEvent)
+            .get('/:eventId/comments', this.getCommentsInEvent)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .put('/:eventId', this.updateTowerEvent)
             .post('', this.createTowerEvent)
             .delete('/:eventId', this.archiveEvent)
+            .delete('/:eventId/comments', this.archiveComment)
             .get('/:eventId/tickets', this.getTicketsForEvent)
-            .get('/:eventId/comments', this.getCommentsInEvent)
     }
 
+    async archiveComment(request, response, next) {
+        try {
+            const commentId = request.params.commentId
+            const userId = request.userInfo.id
+            const message = await commentService.archiveComment(commentId, userId)
+        } catch (error) {
+            next(error)
+        }
+    }
     async getCommentsInEvent(request, response, next) {
         try {
             const eventId = request.params.eventId
