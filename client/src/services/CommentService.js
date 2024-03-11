@@ -19,7 +19,7 @@ async getCommentsByEventId(eventId) {
 
 async deleteComment(commentData){
     
-    const response = await api.delete('api/comments', commentData)
+    const response = await api.delete('api/comments/${commentId}', commentData)
     logger.log('deleted comment', response.data)
 }
 }

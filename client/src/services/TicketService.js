@@ -12,7 +12,7 @@ async getTicketsByEventId(eventId) {
 }
 
 async createTicket(eventData) {
-    const response = await api.get('api/tickets', eventData)
+    const response = await api.post('api/tickets', eventData)
     logger.log('created ticket', response.data)
     AppState.eventTickets.push(new Ticket(response.data))
 }
@@ -24,7 +24,7 @@ async getMyTickets() {
     AppState.eventTickets = newTicket
 }
 async deleteTicket(ticketId) {
-    const response = await api.delete(`api/ticket/${ticketId}`)
+    const response = await api.delete(`api/tickets/${ticketId}`)
     logger.log('deleted ticket', response.data)
     const ticketIndex = AppState.eventTickets.findIndex(ticket => ticket.id == ticketId)
     if (ticketIndex == -1) throw new Error("WRONG")

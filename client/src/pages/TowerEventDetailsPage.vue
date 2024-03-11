@@ -25,12 +25,16 @@
                             <!-- <i class="mdi mdi-heart"></i>{{ album.memberCount }} -->
                         </div>
                         <button @click="createTicket">Attend</button>
+                        <div v-for="singleTicket in tickets" :key="singleTicket.id" class="d-flex">
+                            <img class=img-fluid :src="singleTicket.profile.picture">
+                            <p>{{ singleTicket.profile.name }}</p>
+                            <!-- {{ tickets }} -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-6">
 
                 </div>
-                <!-- FIXME add start date -->
                 <p>{{ towerEvent.startDate }}</p>
                 <p>{{ towerEvent.location }}</p>
                 <div class="col-10 ">
@@ -132,7 +136,7 @@ export default {
 
                     if (!yes) return
 
-                    await ticketService.deleteTicket(commentId)
+                    await commentService.deleteComment(commentId)
                 } catch (error) {
                     Pop.error(error)
                 }

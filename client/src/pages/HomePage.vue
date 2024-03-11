@@ -2,11 +2,11 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <img class='img-fluid'
+        <img class='img-fluid img-1'
           src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Event Photo">
       </div>
-      <div class="col-12">
+      <div class="col-12 my-2">
         <h3>How Tower works</h3>
       </div>
       <div class="col-10 d-flex justify-content-between ">
@@ -84,4 +84,10 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.img-1 {
+  width: 300vh;
+  height: 65vh;
+  object-fit: cover;
+}
+</style>
