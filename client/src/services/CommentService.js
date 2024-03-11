@@ -17,10 +17,16 @@ async getCommentsByEventId(eventId) {
     AppState.comments = response.data.map(commentPojo => new Comment(commentPojo))
 }
 
-async deleteComment(commentData){
+async deleteComment(commentId){
     
-    const response = await api.delete('api/comments/${commentId}', commentData)
+    const response = await api.delete('api/comments/${commentId}', commentId)
     logger.log('deleted comment', response.data)
+    const commentIndex = AppState.comments.findIndex(comment => comment.id == commentId)
+    if (commentIndex == -1) {
+        throw new Error('index was -1')
+    }
+
+    AppState.comments.splice(commentIndex,1)
 }
 }
 

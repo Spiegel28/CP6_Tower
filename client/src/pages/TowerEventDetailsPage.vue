@@ -24,7 +24,7 @@
                             :title="towerEvent.ticketCount + ' tickets left'">
                             <!-- <i class="mdi mdi-heart"></i>{{ album.memberCount }} -->
                         </div>
-                        <button @click="createTicket">Attend</button>
+                        <!-- <button @click="createTicket" :disabled="isAttend" || towerEvent.isCanceled>Attend</button> -->
                         <div v-for="singleTicket in tickets" :key="singleTicket.id" class="d-flex">
                             <img class=img-fluid :src="singleTicket.profile.picture">
                             <p>{{ singleTicket.profile.name }}</p>
@@ -118,6 +118,7 @@ export default {
             towerEvent: computed(() => AppState.activeEvent),
             comment: computed(() => AppState.comments),
             tickets: computed(() => AppState.eventTickets),
+            // isAttend: computed(() => AppState.profileTickets.some(ticket))
 
             async cancelEvent() {
                 try {

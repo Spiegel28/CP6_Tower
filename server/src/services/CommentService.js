@@ -24,7 +24,7 @@ class CommentService {
 
         await archiveComment.deleteOne()
 
-        return 'Ticket returned '
+        return 'comment returned '
     }
 
 }
