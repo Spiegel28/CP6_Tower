@@ -19,7 +19,7 @@ async getCommentsByEventId(eventId) {
 
 async deleteComment(commentId){
     
-    const response = await api.delete('api/comments/${commentId}', commentId)
+    const response = await api.delete(`api/comments/${commentId}`, commentId)
     logger.log('deleted comment', response.data)
     const commentIndex = AppState.comments.findIndex(comment => comment.id == commentId)
     if (commentIndex == -1) {

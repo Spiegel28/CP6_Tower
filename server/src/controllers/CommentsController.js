@@ -17,6 +17,7 @@ export class CommentsController extends BaseController {
             const commentId = request.params.commentId
             const userId = request.userInfo.id
             const message = await commentService.archiveComment(commentId, userId)
+            response.send(message)
         } catch (error) {
             next(error)
         }
