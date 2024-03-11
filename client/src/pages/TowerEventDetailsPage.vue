@@ -20,6 +20,10 @@
                     </div>
                     <div class="card col-3">
                         <p>interested in going?</p>
+                        <div class="text-light text-center fw-bold p-2"
+                            :title="towerEvent.ticketCount + ' tickets left'">
+                            <!-- <i class="mdi mdi-heart"></i>{{ album.memberCount }} -->
+                        </div>
                         <button>Attend</button>
                     </div>
                 </div>
@@ -32,13 +36,14 @@
                 <div class="col-6">
                     <p>see what folks are saying</p>
                     <CommentForm />
-                    <div class="container-fluid">
-                        <div class="card text-start">
+                    <div class="container-fluid my-3">
+                        <div v-if="towerEvent" class="card text-start">
                             <!-- <img class="card-img-top image-fluid event-img" :src="comments.creator.name"
                                 :alt="`cover image for event ${towerEvent.name}`" /> -->
-                            <div class="card-body">
-                                <h4 class="card-title">{{ towerEvent.name }}</h4>
-                                <p class="card-text">Hosted by {{ comment.body }}</p>
+                            <div v-for="singleComment in comment" :key="singleComment.id" class="card-body">
+                                <h4 class="card-title">{{ }}</h4>
+                                <p class="card-text"> {{ comment }}</p>
+                                <!-- {{ towerEvent }} -->
                                 <!-- NOTE fix creator, comes over in log but not in object  -->
                             </div>
                         </div>
@@ -52,12 +57,13 @@
 
 
 <script>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, popScopeId } from 'vue';
 import Pop from '../utils/Pop.js';
 import { towerEventService } from '../services/TowerEventService.js'
 import { useRoute } from 'vue-router';
 import { AppState } from '../AppState.js';
 import { commentService } from '../services/CommentService.js';
+import CommentForm from '../components/CommentForm.vue'
 
 export default {
     setup() {
@@ -66,8 +72,16 @@ export default {
         onMounted(() => {
             getTowerEventById()
             getCommentsByEventId()
+            getTicketsByEventId()
             // TODO call your other get functions here
         })
+        async function getTicketsByEventId() {
+            try {
+                await ticketService.getTicketsByEventId(route.params.eventId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
 
         async function getCommentsByEventId() {
             try {
@@ -105,8 +119,8 @@ export default {
                 }
             }
         }
-    }
-
+    },
+    components: { CommentForm }
 }
 
 </script>

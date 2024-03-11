@@ -1,4 +1,5 @@
 import { AppState } from "../AppState"
+import { Comment } from "../models/Comment"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
 
