@@ -11,6 +11,18 @@ async getTicketsByEventId(eventId) {
     AppState.eventTickets = newTickets
 }
 
+async createTicket(eventData) {
+    const response = await api.get('api/tickets', eventData)
+    logger.log('created ticket', response.data)
+    AppState.eventTickets.push(new Ticket(response.data))
+}
+
+async getMyTickets() {
+    const response = await api.get('account/tickets')
+    logger.log('got my tickets', response.data)
+    const newTicket = response.data.map(pojo => new Ticket(pojo))
+    AppState.eventTickets = newTicket
+}
 async deleteTicket(ticketId) {
     const response = await api.delete(`api/ticket/${ticketId}`)
     logger.log('deleted ticket', response.data)

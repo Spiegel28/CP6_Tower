@@ -24,7 +24,7 @@
                             :title="towerEvent.ticketCount + ' tickets left'">
                             <!-- <i class="mdi mdi-heart"></i>{{ album.memberCount }} -->
                         </div>
-                        <button>Attend</button>
+                        <button @click="createTicket">Attend</button>
                     </div>
                 </div>
                 <div class="col-6">
@@ -33,16 +33,16 @@
                 <!-- FIXME add start date -->
                 <p>{{ towerEvent.startDate }}</p>
                 <p>{{ towerEvent.location }}</p>
-                <div class="col-6">
+                <div class="col-10 ">
                     <p>see what folks are saying</p>
                     <CommentForm />
                     <div class="container-fluid my-3">
-                        <div v-if="towerEvent" class="card text-start">
+                        <div v-if="towerEvent" class="text-start">
                             <!-- <img class="card-img-top image-fluid event-img" :src="comments.creator.name"
                                 :alt="`cover image for event ${towerEvent.name}`" /> -->
-                            <div v-for="singleComment in comment" :key="singleComment.id" class="card-body">
+                            <div v-for="singleComment in comment" :key="singleComment.id" class=" mb-3 card card-body">
                                 <h4 class="card-title">{{ singleComment.creator.name }}</h4>
-                                <div class="d-flex">
+                                <div class="d-flex justify-content-between">
                                     <img class=img-fluid :src="singleComment.creator.picture">
                                     <p class="card-text"> {{ singleComment.body }}</p>
                                     <button @click="deleteComment()">Delete</button>
@@ -79,17 +79,7 @@ export default {
             // TODO call your other get functions here
         })
 
-        async function deleteComment(commentId) {
-            try {
-                const yes = await Pop.confirm()
 
-                if (!yes) return
-
-                await ticketService.deleteTicket(commentId)
-            } catch (error) {
-                Pop.error(error)
-            }
-        }
 
         async function getTicketsByEventId() {
             try {
@@ -131,6 +121,27 @@ export default {
                     const wantsToCancel = await Pop.confirm(`Are you sure you want to cancel${event.name}?`)
                     if (!wantsToCancel) { return }
                     await towerEventService.cancelEvent(event.id)
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
+
+            async deleteComment(commentId) {
+                try {
+                    const yes = await Pop.confirm()
+
+                    if (!yes) return
+
+                    await ticketService.deleteTicket(commentId)
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
+
+            async createTicket() {
+                try {
+                    const eventData = { eventId: route.params.eventId }
+                    await ticketService.createTicket(eventData)
                 } catch (error) {
                     Pop.error(error)
                 }
