@@ -16,7 +16,12 @@ async getCommentsByEventId(eventId) {
     logger.log('got comments', response.data)
     AppState.comments = response.data.map(commentPojo => new Comment(commentPojo))
 }
-}
 
+async deleteComment(commentData){
+    
+    const response = await api.delete('api/comments', commentData)
+    logger.log('deleted comment', response.data)
+}
+}
 
 export const commentService = new CommentService()

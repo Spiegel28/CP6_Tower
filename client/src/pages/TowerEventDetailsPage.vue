@@ -41,10 +41,12 @@
                             <!-- <img class="card-img-top image-fluid event-img" :src="comments.creator.name"
                                 :alt="`cover image for event ${towerEvent.name}`" /> -->
                             <div v-for="singleComment in comment" :key="singleComment.id" class="card-body">
-                                <h4 class="card-title">{{ }}</h4>
-                                <p class="card-text"> {{ comment }}</p>
-                                <!-- {{ towerEvent }} -->
-                                <!-- NOTE fix creator, comes over in log but not in object  -->
+                                <h4 class="card-title">{{ singleComment.creator.name }}</h4>
+                                <div class="d-flex">
+                                    <img class=img-fluid :src="singleComment.creator.picture">
+                                    <p class="card-text"> {{ singleComment.body }}</p>
+                                    <button @click="deleteComment()">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,6 +66,7 @@ import { useRoute } from 'vue-router';
 import { AppState } from '../AppState.js';
 import { commentService } from '../services/CommentService.js';
 import CommentForm from '../components/CommentForm.vue'
+import { ticketService } from '../services/TicketService.js';
 
 export default {
     setup() {
@@ -75,6 +78,19 @@ export default {
             getTicketsByEventId()
             // TODO call your other get functions here
         })
+
+        async function deleteComment(commentId) {
+            try {
+                const yes = await Pop.confirm()
+
+                if (!yes) return
+
+                await ticketService.deleteTicket(commentId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
+
         async function getTicketsByEventId() {
             try {
                 await ticketService.getTicketsByEventId(route.params.eventId)
@@ -107,6 +123,7 @@ export default {
             route,
             towerEvent: computed(() => AppState.activeEvent),
             comment: computed(() => AppState.comments),
+            tickets: computed(() => AppState.eventTickets),
 
             async cancelEvent() {
                 try {
