@@ -1,29 +1,48 @@
 <template>
     <div class="container-fluid">
         <section v-if="towerEvent" class="row">
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <img class=img-fluid :src="towerEvent.coverImg" :alt="towerEvent.name">
             </div>
-            <div class="col-6">
-                <div class="d-flex">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
                     <h1 v-if="towerEvent" :class="{ 'text-danger': towerEvent.isCanceled }">{{ towerEvent.name }}</h1>
                     <p>{{ towerEvent.type }}</p>
+                </div>
+                <div class="d-flex justify-content-center">
                     <button @click="cancelEvent()" class="btn btn-success" type="button">
                         <i class=" me-1"></i>Cancel Event
                     </button>
                 </div>
-                <div class="d-flex ">
-                    <p>{{ towerEvent.description }}</p>
-                    <div class="col-4 card">
+                <div class="row justify-content-between">
+                    <div class="d-flex col-6 m-3">
+                        <p>{{ towerEvent.description }}</p>
+                    </div>
+                    <div class="card col-3">
                         <p>interested in going?</p>
                         <button>Attend</button>
                     </div>
                 </div>
+                <div class="col-6">
+
+                </div>
                 <!-- FIXME add start date -->
-                <p>tim</p>
+                <p>{{ towerEvent.startDate }}</p>
                 <p>{{ towerEvent.location }}</p>
                 <div class="col-6">
                     <p>see what folks are saying</p>
+                    <CommentForm />
+                    <div class="container-fluid">
+                        <div class="card text-start">
+                            <!-- <img class="card-img-top image-fluid event-img" :src="comments.creator.name"
+                                :alt="`cover image for event ${towerEvent.name}`" /> -->
+                            <div class="card-body">
+                                <h4 class="card-title">{{ towerEvent.name }}</h4>
+                                <p class="card-text">Hosted by {{ comment.body }}</p>
+                                <!-- NOTE fix creator, comes over in log but not in object  -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -38,6 +57,7 @@ import Pop from '../utils/Pop.js';
 import { towerEventService } from '../services/TowerEventService.js'
 import { useRoute } from 'vue-router';
 import { AppState } from '../AppState.js';
+import { commentService } from '../services/CommentService.js';
 
 export default {
     setup() {
@@ -45,8 +65,17 @@ export default {
 
         onMounted(() => {
             getTowerEventById()
+            getCommentsByEventId()
             // TODO call your other get functions here
         })
+
+        async function getCommentsByEventId() {
+            try {
+                await commentService.getCommentsByEventId(route.params.eventId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
 
         async function getTowerEventById() {
             try {
@@ -63,6 +92,7 @@ export default {
         return {
             route,
             towerEvent: computed(() => AppState.activeEvent),
+            comment: computed(() => AppState.comments),
 
             async cancelEvent() {
                 try {

@@ -10,6 +10,7 @@ export class TowerEvent {
         this.isCanceled = data.isCanceled 
         this.creator = data.creator
         this.type = data.type
+        this.comment = data.comment
 
     }
 }
