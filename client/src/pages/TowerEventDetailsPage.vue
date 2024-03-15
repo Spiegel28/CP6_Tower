@@ -22,9 +22,9 @@
                         <p>interested in going?</p>
                         <div class="text-light text-center fw-bold p-2"
                             :title="towerEvent.ticketCount + ' tickets left'">
-                            <!-- <i class="mdi mdi-heart"></i>{{ album.memberCount }} -->
                         </div>
                         <!-- <button @click="createTicket" :disabled="isAttend" || towerEvent.isCanceled>Attend</button> -->
+                        <button @click="createTicket">Attend</button>
                         <div v-for="singleTicket in tickets" :key="singleTicket.id" class="d-flex">
                             <img class=img-fluid :src="singleTicket.profile.picture">
                             <p>{{ singleTicket.profile.name }}</p>
